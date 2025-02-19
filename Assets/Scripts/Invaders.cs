@@ -1,5 +1,7 @@
 using Unity.VisualScripting;
-using UnityEditor.Experimental.GraphView;
+//using UnityEditor.Experimental.GraphView;
+using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -17,6 +19,8 @@ public class Invaders : MonoBehaviour
     public int totalInvaders => this.rows * this.columns; // => turns this into calculated property
     public float percentKilled => (float)this.amountKilled / (float)this.totalInvaders;
     private Vector3 _direction = Vector2.right;
+    public Ammo ammoPrefab = null;
+    [SerializeField] private AudioManager audioManager;
 
     private void Awake()
     {
@@ -100,28 +104,15 @@ public class Invaders : MonoBehaviour
 
     private void InvaderKilled()
     {
+        audioManager.Dmg();
+        Instantiate(ammoPrefab, transform.position, Quaternion.identity);
+        
         // keep track of num killed
         this.amountKilled++;
 
         // auto reload of the scene when all invaders are killed
         if (this.amountKilled >= this.totalInvaders) {
-            SceneManager.LoadScene(SceneManager.GetActiveScene().name);
+            audioManager.Win();
         }
     }
-
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-

@@ -3,7 +3,7 @@ using UnityEngine;
 public class Ammo : MonoBehaviour
 {
     
-    [SerializeField] private GameManager gameManager;
+    
     
     // Start is called once before the first execution of Update after the MonoBehaviour is created
     void Start()
@@ -17,16 +17,11 @@ public class Ammo : MonoBehaviour
         
     }
 
-    public void OnTriggerEnter2D(Collider2D other)
+    public void OnTriggerExit2D(Collider2D other)
     {
         if (other.gameObject.CompareTag("Hopper"))
         {
-            gameManager.ammo = gameManager.ammo + 1;
+            Destroy(gameObject);
         }
-    }
-
-    public void OnTriggerExit2D(Collider2D other)
-    {
-        Destroy(gameObject);
     }
 }
